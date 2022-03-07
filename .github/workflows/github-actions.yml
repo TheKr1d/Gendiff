@@ -22,6 +22,7 @@ jobs:
       - name: npm ci
         run: make install
       - name: ESlint
+        run: npm install make
         run: make lint
       - name: tests
         run: make test
