@@ -5,8 +5,8 @@ import * as fs from 'fs';
 
 export default function gendiff(file1, file2) {
   const way = process.cwd();
-  const normalisedWay1 = file1[0] === '/' || file1[0] === '~' ? file1 : path.resolve(way, file1);
-  const normalisedWay2 = file2[0] === '/' || file2[0] === '~' ? file2 : path.resolve(way, file2);
+  const normalisedWay1 = file1[0] === '/' ? file1 : path.resolve(way, file1);
+  const normalisedWay2 = file2[0] === '/' ? file2 : path.resolve(way, file2);
   const readingFile1 = fs.readFileSync(normalisedWay1, 'utf8');
   const readingFile2 = fs.readFileSync(normalisedWay2, 'utf8');
   const parseFile1 = JSON.parse(readingFile1);
