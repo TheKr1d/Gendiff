@@ -13,11 +13,11 @@ export default function gendiff(file1, file2) {
   const parseFile2 = JSON.parse(readingFile2);
   const keys = _.sortBy(_.uniqBy(_.concat(_.keys(parseFile1), _.keys(parseFile2))));
   const chekData = keys.reduce((acc, key) => {
-    if (Object.hasOwn(parseFile1, key) && Object.hasOwn(parseFile2, key) && parseFile1[key] === parseFile2[key]) {
+    if (Object.prototype.hasOwnProperty.call(parseFile1, key) && Object.prototype.hasOwnProperty.call(parseFile2, key) && parseFile1[key] === parseFile2[key]) {
       return [...acc, `    ${key}: ${parseFile1[key]}`];
-    } if (Object.hasOwn(parseFile1, key) && Object.hasOwn(parseFile2, key)) {
+    } if (Object.prototype.hasOwnProperty.call(parseFile1, key) && Object.prototype.hasOwnProperty.call(parseFile2, key)) {
       return [...acc, `  - ${key}: ${parseFile1[key]}`, `  + ${key}: ${parseFile2[key]}`];
-    } if (Object.hasOwn(parseFile1, key)) {
+    } if (Object.prototype.hasOwnProperty.call(parseFile1, key)) {
       return [...acc, `  - ${key}: ${parseFile1[key]}`];
     }
     return [...acc, `  + ${key}: ${parseFile2[key]}`];
