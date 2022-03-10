@@ -13,3 +13,4 @@ Example of work:
   make publish
 ```
 [![asciicast](https://asciinema.org/a/EMzJe2W6qrK7sHi6kp88Hv9U8.svg)](https://asciinema.org/a/EMzJe2W6qrK7sHi6kp88Hv9U8)
+[![asciicast](https://asciinema.org/a/475614.svg)](https://asciinema.org/a/475614)
