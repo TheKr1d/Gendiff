@@ -12,5 +12,6 @@ const readFixtureFile = (filename) => fs.readFile(getFixturePath(filename), 'utf
 const getPath = (filename) => path.resolve(way, filename);
 const readFile = (filename) => fs.readFile(getPath(filename), 'utf-8');
 
-
-export { readFixtureFile, getFixturePath, getPath, readFile };
+export {
+  readFixtureFile, getFixturePath, getPath, readFile,
+};
