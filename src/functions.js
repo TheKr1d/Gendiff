@@ -23,6 +23,7 @@ const parses = (fullWay) => {
   }
   return result;
 };
+
 export {
   readFile, getFixturePath, parses, getWay,
 };
