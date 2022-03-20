@@ -1,9 +1,10 @@
-const mkfile = (name, action, meta1, meta2 = []) => ({
-  name,
-  meta1,
-  meta2,
-  action,
-});
+const mkfile = (name, action, meta1, meta2) => {
+  if (action === 'deff') {
+    return { name, action, meta1, meta2 };
+  }
+  return { name, action, meta1 };
+};
+
 const mkdir = (name, action, childrens) => ({
   name,
   action,
