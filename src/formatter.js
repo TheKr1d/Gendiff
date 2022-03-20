@@ -14,7 +14,7 @@ const stylish = (tree, subString = '  ') => {
       }
       return [`${sub}${actSymbol(getAction(child))}${getName(child)}: ${iter(child, level + 1)}`];
     });
-    return ['{', ...result, `${subString.repeat(level - 1)}}`].join('\n');
+    return ['{', ...result, `${subString.repeat(level)}}`].join('\n');
   };
   return iter(tree, 1);
 };
