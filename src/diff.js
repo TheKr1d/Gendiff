@@ -8,7 +8,7 @@ const diffNode = (node) => {
     if (_.isObject(node[key])) {
       return mkdir(key, 'save', diffNode(node[key]));
     }
-    return mkfile(key, node[key], 'save');
+    return mkfile(key, 'save', node[key]);
   });
 };
 const genD = (obj1, obj2) => {
