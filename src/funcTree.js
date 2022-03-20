@@ -7,7 +7,7 @@ const mkfile = (name, action, meta1, meta2 = []) => ({
 const mkdir = (name, action, childrens) => ({
   name,
   action,
-  childrens: [childrens],
+  childrens: childrens,
 });
 const getChild = (obj) => obj.childrens ?? [];
 const getMeta1 = (obj) => obj.meta1;
