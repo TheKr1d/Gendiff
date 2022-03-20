@@ -19,7 +19,7 @@ const diff = (node1, node2) => {
       return mkdir(key, 'save', diff(node1[key], node2[key]));
     }
     if (_.isObject(node1[key])) {
-      return mkdir(key, 'dell', diffNode(node1[key]));
+      return mkdir(key, 'del', diffNode(node1[key]));
     }
     if (_.isObject(node2[key])) {
       return mkdir(key, 'add', diffNode(node2[key]));
