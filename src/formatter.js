@@ -12,9 +12,9 @@ const stylish = (tree, subString = '  ') => {
       if (getAction(child) === 'deff') {
         return [`${sub}${'- '}${getName(child)}: ${getMeta1(child)}`, `${sub}${'+ '}${getName(child)}: ${getMeta2(child)}`];
       }
-      return [`${sub}${actSymbol(getAction(child))}${getName(child)}: ${iter(child, level + 1)}`];
+      return [`${sub}${actSymbol(getAction(child))}${getName(child)}: ${iter(child, level + 2)}`];
     });
-    return ['{', ...result, `${subString.repeat(level)}}`].join('\n');
+    return ['{', ...result, `${subString.repeat(level - 1)}}`].join('\n');
   };
   return iter(tree, 1);
 };
