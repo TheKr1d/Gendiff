@@ -8,5 +8,5 @@ export default function gendiff(file1, file2, format) {
   const parseFile1 = parses(normalisedWay1);
   const parseFile2 = parses(normalisedWay2);
   const callDiff = diff(parseFile1, parseFile2);
-  return JSON.stringify(callDiff, null, ' ');
+  return stylish(callDiff);
 }
