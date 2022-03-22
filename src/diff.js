@@ -1,43 +1,64 @@
 /* eslint-disable max-len */
 import _ from 'lodash';
-import { mkfile, mkdir } from './funcTree.js';
 
-const diffNode = (node) => {
-  const keys = _.keys(node);
-  return keys.map((key) => {
-    if (_.isObject(node[key])) {
-      return mkdir(key, 'save', diffNode(node[key]));
+const mkfile = (action, key, value) => {
+  if (action === 'add') {
+    return {
+      key,
+      action: '+',
+      value
     }
-    return mkfile(key, 'save', node[key]);
-  });
+  }
+  if (action === 'delete') {
+    return {
+      key,
+      action: '-',
+      value
+    }
+  }
+  if (action === 'save') {
+    return {
+      key,
+      action: ' ',
+      value
+    }
+  }
+  if (action === 'exist') {
+    return {
+      key,
+      add: '+',
+      del: '-',
+      value1: value[0],
+      value2: value[1]
+    }
+  }
+  throw new Error(`Invalid this exist ${action}`)
 };
-const genD = (obj1, obj2) => {
-const diff = (node1, node2) => {
-  const keys = _.sortBy(_.uniqBy(_.concat(_.keys(node1), _.keys(node2))));
+
+const diff = (obj1, obj2) => {
+const iter = (node1, node2) => {
+  const keys = _.sortBy(_.union(_.keys(node1), _.keys(node2)));
   const result = keys.map((key) => {
+    if (!_.has(node1, key)) {
+      return mkfile('add', key, node2[key]);
+    }
+    if (!_.has(node2, key)) {
+      return mkfile('delete', key, node1[key])
+    }
     if (_.isObject(node1[key]) && _.isObject(node2[key])) {
-      return mkdir(key, 'save', diff(node1[key], node2[key]));
+      return {
+        name: key,
+        action: ' ',
+        children: iter(node1[key], node2[key])
+      };
     }
-    if (_.isObject(node1[key])) {
-      return mkdir(key, 'del', diffNode(node1[key]));
+    if (!_.isEqual(node1[key], node2[key])) {
+      return mkfile('exist', key, [node1[key], node2[key]]);
     }
-    if (_.isObject(node2[key])) {
-      return mkdir(key, 'add', diffNode(node2[key]));
-    }
-    if (node1[key] === node2[key]) {
-      return mkfile(key, 'save', node1[key]);
-    }
-    if (node1[key] !== undefined && node2[key] !== undefined) {
-      return mkfile(key, 'deff', node1[key], node2[key]);
-    }
-    if (node1[key] !== undefined) {
-      return mkfile(key, 'del', node1[key]);
-    } if (node2[key] !== undefined) {
-    return mkfile(key, 'add', node2[key]);
-    }
+    return mkfile('save', key, node1[key]);
   });
   return result;
 }
-return { name: 'tree', childrens: diff(obj1, obj2) };
+return { name: 'tree', children: iter(obj1, obj2) };
 };
-export default genD;
+export default diff;

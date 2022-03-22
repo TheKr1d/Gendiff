@@ -1,16 +1,16 @@
 import _ from 'lodash';
-import { getChild, getMeta1, getMeta2, getName, getAction, actSymbol } from './funcTree.js';
+import { getChild, getMeta1, getMeta2, getName, getAction, } from './funcTree.js';
 
 const stylish = (tree, subString = '  ') => {
   const iter = (node, level) => {
     const sub = subString.repeat(level);
-    const childrens = getChild(node);
-    if (node.childrens === undefined) {
+    const children = getChild(node);
+    if (children === 0) {
       return `${getMeta1(node)}`;
     }
-    const result = childrens.flatMap((child) => {
-      if (getAction(child) === 'deff') {
-        return [`${sub}${'- '}${getName(child)}: ${getMeta1(child)}`, `${sub}${'+ '}${getName(child)}: ${getMeta2(child)}`];
+    const result = children.flatMap((child) => {
+      if (getAction(child) === 'exist') {
+        return [`${sub}${child.del}${getName(child)}: ${getMeta1(child)}`, `${sub}${child.add}${getName(child)}: ${getMeta2(child)}`];
       }
       return [`${sub}${actSymbol(getAction(child))}${getName(child)}: ${iter(child, level + 2)}`];
     });
@@ -19,5 +19,4 @@ const stylish = (tree, subString = '  ') => {
   return iter(tree, 1);
 };
 
-const formatter = (tree) => stylish(tree);
-export default formatter;
+export default stylish;
