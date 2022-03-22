@@ -4,28 +4,28 @@ import _ from 'lodash';
 const mkfile = (action, key, value) => {
   if (action === 'add') {
     return {
-      key,
+      name: key,
       action: '+',
       value
     }
   }
   if (action === 'delete') {
     return {
-      key,
+      name: key,
       action: '-',
       value
     }
   }
   if (action === 'save') {
     return {
-      key,
+      name: key,
       action: ' ',
       value
     }
   }
   if (action === 'exist') {
     return {
-      key,
+      name: key,
       add: '+',
       del: '-',
       value1: value[0],
