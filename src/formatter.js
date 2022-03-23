@@ -1,4 +1,7 @@
 import _ from 'lodash';
+import {
+  getAction, getName, getValue1, getValue2, getValue, getAdd, getDel, getChildren,
+} from './funcTree.js';
 
 const iterObj = (node, level) => {
   const subString = '  ';
@@ -17,19 +20,23 @@ const iterObj = (node, level) => {
 const stylish = (tree, subString = '  ') => {
   const iter = (node, level) => {
     const sub = subString.repeat(level);
-    const children = node.children;
+    const children = getChildren(node);
     const result = children.flatMap((child) => {
+      const name = getName(child);
       if (_.has(child, 'children')) {
-        return `${sub}${child.action} ${child.name}: ${iter(child, level + 2)}`
+        return `${sub}${getAction(child)} ${name}: ${iter(child, level + 2)}`;
       }
       if (_.has(child, 'del') && _.has(child, 'add')) {
-        return [`${sub}${child.del} ${child.name}: ${iterObj(child.value1, level + 2)}`, `${sub}${child.add} ${child.name}: ${iterObj(child.value2, level + 2)}`]
+        return [
+          `${sub}${getDel(child)} ${name}: ${iterObj(getValue1(child), level + 2)}`,
+          `${sub}${getAdd(child)} ${name}: ${iterObj(getValue2(child), level + 2)}`,
+        ];
       }
-      return `${sub}${child.action} ${child.name}: ${iterObj(child.value, level + 2)}`;
+      return `${sub}${getAction(child)} ${name}: ${iterObj(getValue(child), level + 2)}`;
     });
-  return ['{', ...result, `${subString.repeat(level - 1)}}`].join('\n');
- }
-return iter(tree, 1);
+    return ['{', ...result, `${subString.repeat(level - 1)}}`].join('\n');
+  };
+  return iter(tree, 1);
 };
 
 export default stylish;
