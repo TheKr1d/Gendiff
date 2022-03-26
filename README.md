@@ -14,3 +14,5 @@ Example of work:
 ```
 [![asciicast](https://asciinema.org/a/EMzJe2W6qrK7sHi6kp88Hv9U8.svg)](https://asciinema.org/a/EMzJe2W6qrK7sHi6kp88Hv9U8)
 [![asciicast](https://asciinema.org/a/475614.svg)](https://asciinema.org/a/475614)
+[![asciicast](https://asciinema.org/a/480825.svg)](https://asciinema.org/a/480825)
+[![asciicast](https://asciinema.org/a/iAYkrrH3zilcSUHeVxrduWbjN.svg)](https://asciinema.org/a/iAYkrrH3zilcSUHeVxrduWbjN)

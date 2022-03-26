@@ -5,21 +5,24 @@ const mkfile = (action, key, value) => {
   if (action === 'add') {
     return {
       name: key,
-      action: '+',
+      sign: '+',
+      action: 'added',
       value,
     };
   }
   if (action === 'delete') {
     return {
       name: key,
-      action: '-',
+      sign: '-',
+      action: 'removed',
       value,
     };
   }
   if (action === 'save') {
     return {
       name: key,
-      action: ' ',
+      sign: ' ',
+      action: 'save',
       value,
     };
   }
@@ -28,6 +31,7 @@ const mkfile = (action, key, value) => {
       name: key,
       add: '+',
       del: '-',
+      action: 'updated',
       value1: value[0],
       value2: value[1],
     };
@@ -48,7 +52,8 @@ const diff = (obj1, obj2) => {
       if (_.isObject(node1[key]) && _.isObject(node2[key])) {
         return {
           name: key,
-          action: ' ',
+          sign: ' ',
+          type: 'dir',
           children: iter(node1[key], node2[key]),
         };
       }

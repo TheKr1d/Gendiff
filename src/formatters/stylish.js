@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {
-  getAction, getName, getValue1, getValue2, getValue, getAdd, getDel, getChildren,
-} from './funcTree.js';
+  getSign, getName, getValue1, getValue2, getValue, getAdd, getDel, getChildren,
+} from '../funcTree.js';
 
 const iterObj = (node, level) => {
   const subString = '  ';
@@ -24,7 +24,7 @@ const stylish = (tree, subString = '  ') => {
     const result = children.flatMap((child) => {
       const name = getName(child);
       if (_.has(child, 'children')) {
-        return `${sub}${getAction(child)} ${name}: ${iter(child, level + 2)}`;
+        return `${sub}${getSign(child)} ${name}: ${iter(child, level + 2)}`;
       }
       if (_.has(child, 'del') && _.has(child, 'add')) {
         return [
@@ -32,7 +32,7 @@ const stylish = (tree, subString = '  ') => {
           `${sub}${getAdd(child)} ${name}: ${iterObj(getValue2(child), level + 2)}`,
         ];
       }
-      return `${sub}${getAction(child)} ${name}: ${iterObj(getValue(child), level + 2)}`;
+      return `${sub}${getSign(child)} ${name}: ${iterObj(getValue(child), level + 2)}`;
     });
     return ['{', ...result, `${subString.repeat(level - 1)}}`].join('\n');
   };

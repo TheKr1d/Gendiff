@@ -2,10 +2,10 @@ import { test, expect } from '@jest/globals';
 import gendiff from '../src/index.js';
 import { getFixturePath, readFile } from '../src/functions.js';
 
-test('gendiffTest', () => {
+test('stylish', () => {
   const jsonFile1 = getFixturePath('file1.json');
   const jsonFile2 = getFixturePath('file2.json');
-  const expected = readFile(getFixturePath('expect.txt'));
+  const expected = readFile(getFixturePath('stylish.expect.txt'));
 
   expect(gendiff(jsonFile1, jsonFile2)).toBe(expected);
 

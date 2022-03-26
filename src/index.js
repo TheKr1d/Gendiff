@@ -1,12 +1,19 @@
 import { getWay, parses } from './functions.js';
 import diff from './diff.js';
-import stylish from './formatter.js';
+import stylish from './formatters/stylish.js';
+import plain from './formatters/plain.js';
 
-export default function gendiff(file1, file2) {
+export default function gendiff(file1, file2, format = 'stylish') {
   const normalisedWay1 = file1[0] === '/' ? file1 : getWay(file1);
   const normalisedWay2 = file2[0] === '/' ? file2 : getWay(file2);
   const parseFile1 = parses(normalisedWay1);
   const parseFile2 = parses(normalisedWay2);
   const callDiff = diff(parseFile1, parseFile2);
-  return stylish(callDiff);
+  if (format === 'stylish') {
+    return stylish(callDiff);
+  }
+  if (format === 'plain') {
+    return plain(callDiff);
+  }
+  throw new Error(`Invalid this exist ${format}`);
 }
