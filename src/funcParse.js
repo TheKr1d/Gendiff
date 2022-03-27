@@ -19,7 +19,7 @@ const parses = (fullWay) => {
   } else if (format === '.json') {
     result = JSON.parse(readFile(fullWay));
   } else {
-    console.log(format);
+    throw Error(`This if invalid is ${format}`);
   }
   return result;
 };

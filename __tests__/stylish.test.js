@@ -1,6 +1,6 @@
 import { test, expect } from '@jest/globals';
 import gendiff from '../src/index.js';
-import { getFixturePath, readFile } from '../src/functions.js';
+import { getFixturePath, readFile } from '../src/funcParse.js';
 
 test('stylish', () => {
   const jsonFile1 = getFixturePath('file1.json');
