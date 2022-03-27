@@ -15,11 +15,11 @@ const parses = (fullWay) => {
   const format = path.extname(fullWay);
   if (format === '.yaml' || format === '.yml') {
     return yaml.load(readFile(fullWay));
-  } else if (format === '.json') {
-    return JSON.parse(readFile(fullWay));
-  } else {
-    throw Error(`This if invalid is ${format}`);
   }
+  if (format === '.json') {
+    return JSON.parse(readFile(fullWay));
+  }
+  throw Error(`This if invalid is ${format}`);
 };
 
 export {
