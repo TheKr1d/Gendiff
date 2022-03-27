@@ -20,7 +20,6 @@ const parses = (fullWay) => {
   } else {
     throw Error(`This if invalid is ${format}`);
   }
-  return result;
 };
 
 export {
