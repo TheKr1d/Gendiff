@@ -13,11 +13,10 @@ const getWay = (filename) => path.resolve(way, filename);
 
 const parses = (fullWay) => {
   const format = path.extname(fullWay);
-  let result;
   if (format === '.yaml' || format === '.yml') {
-    result = yaml.load(readFile(fullWay));
+    return yaml.load(readFile(fullWay));
   } else if (format === '.json') {
-    result = JSON.parse(readFile(fullWay));
+    return JSON.parse(readFile(fullWay));
   } else {
     throw Error(`This if invalid is ${format}`);
   }
