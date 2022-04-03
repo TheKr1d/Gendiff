@@ -1,7 +1,3 @@
-import {
-  getAction, getName, getValue1, getValue2, getChildren, getType, getValue,
-} from '../funcTree.js';
-
 const treatmenValue = (value) => {
   if (typeof value === 'object' && value !== null) {
     return '[complex value]';
@@ -12,30 +8,31 @@ const treatmenValue = (value) => {
   return value;
 };
 
-const plain = (tree) => {
-  const iter = (node, acc = []) => {
-    const accJoin = acc.join('.');
-    if (getAction(node) === 'added') {
-      return `Property '${accJoin}' was added with value: ${treatmenValue(getValue(node))}`;
-    }
-    if (getAction(node) === 'save') {
+const plain = (node, acc = []) => {
+  const accJoin = acc.join('.');
+  switch (node.action) {
+    case 'added':
+      return `Property '${accJoin}' was added with value: ${treatmenValue(node.value)}`;
+
+    case 'save':
       return [];
-    }
-    if (getAction(node) === 'removed') {
+
+    case 'removed':
       return `Property '${accJoin}' was removed`;
+
+    case 'updated':
+      return `Property '${accJoin}' was updated. From ${treatmenValue(node.value1)} to ${treatmenValue(node.value2)}`;
+    default:
+      break;
+  }
+  const children = node.children ?? [];
+  const result = children.flatMap((child) => {
+    const accName = [...acc, child.name];
+    if (child.type === 'dir') {
+      return plain(child, accName);
     }
-    if (getAction(node) === 'updated') {
-      return `Property '${accJoin}' was updated. From ${treatmenValue(getValue1(node))} to ${treatmenValue(getValue2(node))}`;
-    }
-    const result = getChildren(node).flatMap((child) => {
-      const accName = [...acc, getName(child)];
-      if (getType(child) === 'dir') {
-        return iter(child, accName);
-      }
-      return iter(child, accName);
-    });
-    return result.join('\n');
-  };
-  return iter(tree);
+    return plain(child, accName);
+  });
+  return result.join('\n');
 };
 export default plain;

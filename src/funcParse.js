@@ -1,17 +1,14 @@
-import { fileURLToPath } from 'url';
-import path, { dirname } from 'path';
+import path from 'path';
 import * as fs from 'fs';
 import yaml from 'js-yaml';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const way = process.cwd();
+const getThereWay = process.cwd();
 
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(filename, 'utf-8');
-const getWay = (filename) => path.resolve(way, filename);
+const getWay = (filename) => path.resolve(getThereWay, filename);
 
-const parses = (fullWay) => {
+const parses = (way) => {
+  const fullWay = getWay(way);
   const format = path.extname(fullWay);
   if (format === '.yaml' || format === '.yml') {
     return yaml.load(readFile(fullWay));
@@ -23,5 +20,5 @@ const parses = (fullWay) => {
 };
 
 export {
-  readFile, getFixturePath, parses, getWay,
+  readFile, parses, getWay,
 };
