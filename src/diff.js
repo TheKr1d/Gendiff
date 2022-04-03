@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import _ from 'lodash';
+import { parses, getWay } from './funcParse.js';
 
 const mkfile = (action, key, value) => {
   if (action === 'add') {
@@ -39,7 +40,7 @@ const mkfile = (action, key, value) => {
   throw new Error(`Invalid this exist ${action}`);
 };
 
-const diff = (obj1, obj2) => {
+const diff = (file1, file2) => {
   const iter = (node1, node2) => {
     const keys = _.sortBy(_.union(_.keys(node1), _.keys(node2)));
     const result = keys.map((key) => {
@@ -64,6 +65,10 @@ const diff = (obj1, obj2) => {
     });
     return result;
   };
-  return { name: 'tree', children: iter(obj1, obj2) };
+  const normalisedWay1 = getWay(file1);
+  const normalisedWay2 = getWay(file2);
+  const parseFile1 = parses(normalisedWay1);
+  const parseFile2 = parses(normalisedWay2);
+  return { name: 'tree', children: iter(parseFile1, parseFile2) };
 };
 export default diff;
