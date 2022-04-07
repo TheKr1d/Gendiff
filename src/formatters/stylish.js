@@ -4,8 +4,6 @@ const getSign = (obj) => {
   switch (obj.action) {
     case 'save':
       return ' ';
-    case 'perent':
-      return ' ';
     case 'removed':
       return '-';
     case 'added':
@@ -14,7 +12,7 @@ const getSign = (obj) => {
       throw new Error(`Invalid this action ${obj.action}`);
   }
 };
-const iterObj = (node, level) => {
+const stringyfy = (node, level) => {
   const subString = '  ';
   const sub = subString.repeat(level);
   if (!_.isObject(node)) {
@@ -22,7 +20,7 @@ const iterObj = (node, level) => {
   }
   const result = Object.entries(node).flatMap(([key, value]) => {
     if (_.isObject(value)) {
-      return `${sub}  ${key}: ${iterObj(value, level + 2)}`;
+      return `${sub}  ${key}: ${stringyfy(value, level + 2)}`;
     }
     return `${sub}  ${key}: ${value}`;
   });
@@ -39,11 +37,11 @@ const stylish = (tree, subString = '  ') => {
       }
       if (child.action === 'updated') {
         return [
-          `${sub}- ${name}: ${iterObj(child.value1, level + 2)}`,
-          `${sub}+ ${name}: ${iterObj(child.value2, level + 2)}`,
+          `${sub}- ${name}: ${stringyfy(child.value1, level + 2)}`,
+          `${sub}+ ${name}: ${stringyfy(child.value2, level + 2)}`,
         ];
       }
-      return `${sub}${getSign(child)} ${name}: ${iterObj(child.value, level + 2)}`;
+      return `${sub}${getSign(child)} ${name}: ${stringyfy(child.value, level + 2)}`;
     });
     return ['{', ...result, `${subString.repeat(level - 1)}}`].join('\n');
   };
