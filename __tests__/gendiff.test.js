@@ -18,13 +18,13 @@ const jsonFile2 = getFixturePath('file2.json');
 test.each([
   [yamlFile1, yamlFile2, expectStylish],
   [jsonFile1, jsonFile2, expectStylish],
-])('Test format stylish', (file1, file2, expected) => {
+])('Test format stylish (%s, %s)', (file1, file2, expected) => {
   expect(gendiff(file1, file2, 'stylish')).toBe(expected);
 });
 
 test.each([
   [yamlFile1, yamlFile2, expectPlain],
   [jsonFile1, jsonFile2, expectPlain],
-])('Test format plain', (file1, file2, expected) => {
+])('Test format plain (%s, %s)', (file1, file2, expected) => {
   expect(gendiff(file1, file2, 'plain')).toBe(expected);
 });

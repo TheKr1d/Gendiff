@@ -28,9 +28,6 @@ const plain = (node, acc = []) => {
   const children = node.children ?? [];
   const result = children.flatMap((child) => {
     const accName = [...acc, child.name];
-    if (child.type === 'dir') {
-      return plain(child, accName);
-    }
     return plain(child, accName);
   });
   return result.join('\n');

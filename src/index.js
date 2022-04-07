@@ -1,5 +1,5 @@
 import diff from './diff.js';
-import getDataIsFormatter from './formatter.js';
+import getDataIsFormatter from './formatters/formatter.js';
 import { parses } from './funcParse.js';
 
 export default function gendiff(file1, file2, format = 'stylish') {

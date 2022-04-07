@@ -1,5 +1,19 @@
 import _ from 'lodash';
 
+const getSign = (obj) => {
+  switch (obj.action) {
+    case 'save':
+      return ' ';
+    case 'perent':
+      return ' ';
+    case 'removed':
+      return '-';
+    case 'added':
+      return '+';
+    default:
+      throw new Error(`Invalid this action ${obj.action}`);
+  }
+};
 const iterObj = (node, level) => {
   const subString = '  ';
   const sub = subString.repeat(level);
@@ -21,15 +35,15 @@ const stylish = (tree, subString = '  ') => {
     const result = children.flatMap((child) => {
       const { name } = child;
       if (_.has(child, 'children')) {
-        return `${sub}${child.sign} ${name}: ${iter(child, level + 2)}`;
+        return `${sub}  ${name}: ${iter(child, level + 2)}`;
       }
-      if (_.has(child, 'del') && _.has(child, 'add')) {
+      if (child.action === 'updated') {
         return [
-          `${sub}${child.del} ${name}: ${iterObj(child.value1, level + 2)}`,
-          `${sub}${child.add} ${name}: ${iterObj(child.value2, level + 2)}`,
+          `${sub}- ${name}: ${iterObj(child.value1, level + 2)}`,
+          `${sub}+ ${name}: ${iterObj(child.value2, level + 2)}`,
         ];
       }
-      return `${sub}${child.sign} ${name}: ${iterObj(child.value, level + 2)}`;
+      return `${sub}${getSign(child)} ${name}: ${iterObj(child.value, level + 2)}`;
     });
     return ['{', ...result, `${subString.repeat(level - 1)}}`].join('\n');
   };

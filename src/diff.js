@@ -8,7 +8,6 @@ const diff = (file1, file2) => {
       if (!_.has(node1, key)) {
         return {
           name: key,
-          sign: '+',
           action: 'added',
           value: node2[key],
         };
@@ -16,7 +15,6 @@ const diff = (file1, file2) => {
       if (!_.has(node2, key)) {
         return {
           name: key,
-          sign: '-',
           action: 'removed',
           value: node1[key],
         };
@@ -24,16 +22,13 @@ const diff = (file1, file2) => {
       if (_.isObject(node1[key]) && _.isObject(node2[key])) {
         return {
           name: key,
-          sign: ' ',
-          type: 'dir',
+          action: 'perent',
           children: iter(node1[key], node2[key]),
         };
       }
       if (!_.isEqual(node1[key], node2[key])) {
         return {
           name: key,
-          add: '+',
-          del: '-',
           action: 'updated',
           value1: node1[key],
           value2: node2[key],
@@ -41,7 +36,6 @@ const diff = (file1, file2) => {
       }
       return {
         name: key,
-        sign: ' ',
         action: 'save',
         value: node1[key],
       };
