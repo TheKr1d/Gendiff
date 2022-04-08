@@ -2,15 +2,13 @@ import _ from 'lodash';
 
 const indent = (level) => '  '.repeat(level);
 
-const stringify = (node, level) => {
-  const sub = indent(level);
-  if (!_.isObject(node)) {
-    return node;
-  }
-  const result = Object.entries(node).flatMap(([key, value]) => `${sub}  ${key}: ${stringify(value, level + 2)}`);
-  return ['{', ...result, `${indent(level - 1)}}`].join('\n');
-};
 const stylish = (node, level = 1) => {
+  const stringify = (item, strLevel) => {
+    if (!_.isObject(item)) {
+      return item;
+    }
+    return `{\n${Object.entries(item).flatMap(([key, value]) => stylish({ type: 'same', value, name: key }, strLevel)).join('\n')}\n${indent(strLevel - 1)}}`;
+  };
   const sub = indent(level);
   const { name } = node;
   switch (node.action) {
