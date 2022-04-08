@@ -22,14 +22,9 @@ const plain = (node, acc = []) => {
 
     case 'updated':
       return `Property '${accJoin}' was updated. From ${treatmenValue(node.value1)} to ${treatmenValue(node.value2)}`;
+
     default:
-      break;
+      return node.children.flatMap((child) =>  plain(child, [...acc, child.name])).join('\n');
   }
-  const children = node.children ?? [];
-  const result = children.flatMap((child) => {
-    const accName = [...acc, child.name];
-    return plain(child, accName);
-  });
-  return result.join('\n');
 };
 export default plain;
