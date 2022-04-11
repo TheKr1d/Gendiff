@@ -1,5 +1,7 @@
-const treatmenValue = (value) => {
-  if (typeof value === 'object' && value !== null) {
+import _ from 'lodash';
+
+const stringify = (value) => {
+  if (_.isObject(value) && value !== null) {
     return '[complex value]';
   }
   if (typeof value === 'string') {
@@ -11,20 +13,26 @@ const treatmenValue = (value) => {
 const plain = (node, acc = []) => {
   const accJoin = acc.join('.');
   switch (node.action) {
-    case 'added':
-      return `Property '${accJoin}' was added with value: ${treatmenValue(node.value)}`;
+    case 'root':
+      return node.children
+        .map((child) => plain(child, [...acc, child.name])).join('\n');
 
-    case 'save':
-      return [];
+    case 'nested':
+      return node.children
+        .filter((child) => child.action !== 'save')
+        .map((child) => plain(child, [...acc, child.name])).join('\n');
+
+    case 'added':
+      return `Property '${accJoin}' was added with value: ${stringify(node.value)}`;
 
     case 'removed':
       return `Property '${accJoin}' was removed`;
 
     case 'updated':
-      return `Property '${accJoin}' was updated. From ${treatmenValue(node.value1)} to ${treatmenValue(node.value2)}`;
+      return `Property '${accJoin}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`;
 
     default:
-      return node.children.flatMap((child) => plain(child, [...acc, child.name])).join('\n');
+      throw Error(`This if invalid is ${node.action}`);
   }
 };
 export default plain;

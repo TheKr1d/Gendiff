@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import _ from 'lodash';
 
 const diff = (file1, file2) => {
@@ -9,7 +8,6 @@ const diff = (file1, file2) => {
         return {
           name: key,
           action: 'added',
-          type: 'some',
           value: node2[key],
         };
       }
@@ -17,14 +15,13 @@ const diff = (file1, file2) => {
         return {
           name: key,
           action: 'removed',
-          type: 'some',
           value: node1[key],
         };
       }
       if (_.isObject(node1[key]) && _.isObject(node2[key])) {
         return {
           name: key,
-          action: 'perent',
+          action: 'nested',
           children: iter(node1[key], node2[key]),
         };
       }
@@ -44,6 +41,6 @@ const diff = (file1, file2) => {
     });
     return result;
   };
-  return { name: 'tree', action: 'HEAD', children: iter(file1, file2) };
+  return { name: 'tree', action: 'root', children: iter(file1, file2) };
 };
 export default diff;
