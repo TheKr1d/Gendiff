@@ -1,38 +1,42 @@
 import _ from 'lodash';
 
-const indent = (level) => '  '.repeat(level);
+const indent = (depth, spacesCount = 4) => ' '.repeat(depth * spacesCount - 2);
 
 const stringify = (item, strLevel, runStylish) => {
   if (!_.isObject(item)) {
     return item;
   }
   const result = Object.entries(item)
-    .flatMap(([key, value]) => runStylish({ action: 'save', value, name: key }, strLevel)).join('\n');
-  return `{\n${result}\n${indent(strLevel - 1)}}`;
+    .map(([key, value]) => runStylish({ action: 'save', value, name: key }, strLevel)).join('\n');
+  return `{\n${result}\n${indent(strLevel - 1)}  }`;
 };
 
-const stylish = (node, level = 1) => {
-  const sub = indent(level);
-  const newLevel = level + 2;
+const stylish = (node, level = 0) => {
   const { name } = node;
+  const levelUp = level + 1;
   switch (node.action) {
     case 'root':
-      return `{\n${node.children.map((child) => stylish(child, level)).join('\n')}\n}`;
+      return `{\n${node.children.map((child) => stylish(child, levelUp)).join('\n')}\n}`;
 
-    case 'nested':
-      return `${sub}  ${node.name}: {\n${node.children.map((child) => stylish(child, newLevel)).join('\n')}\n${indent(level + 1)}}`;
+    case 'nested': {
+      const strings = node.children.map((child) => stylish(child, levelUp)).join('\n');
+      return `${indent(level)}  ${name}: {\n${strings}\n${indent(level)}  }`;
+    }
 
-    case 'updated':
-      return `${sub}- ${name}: ${stringify(node.value1, newLevel, stylish)}\n${sub}+ ${name}: ${stringify(node.value2, newLevel, stylish)}`;
+    case 'updated': {
+      const strDel = `${indent(level)}- ${name}: ${stringify(node.value1, levelUp, stylish)}`;
+      const strAdd = `${indent(level)}+ ${name}: ${stringify(node.value2, levelUp, stylish)}`;
+      return `${strDel}\n${strAdd}`;
+    }
 
     case 'added':
-      return `${sub}+ ${name}: ${stringify(node.value, newLevel, stylish)}`;
+      return `${indent(level)}+ ${name}: ${stringify(node.value, levelUp, stylish)}`;
 
     case 'removed':
-      return `${sub}- ${name}: ${stringify(node.value, newLevel, stylish)}`;
+      return `${indent(level)}- ${name}: ${stringify(node.value, levelUp, stylish)}`;
 
     case 'save':
-      return `${sub}  ${name}: ${stringify(node.value, newLevel, stylish)}`;
+      return `${indent(level)}  ${name}: ${stringify(node.value, levelUp, stylish)}`;
 
     default:
       throw Error(`This if invalid is ${node.action}`);

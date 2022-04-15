@@ -1,20 +1,12 @@
-import path from 'path';
-import * as fs from 'fs';
 import yaml from 'js-yaml';
 
-const readFile = (filename) => fs.readFileSync(filename, 'utf-8');
-
-const parses = (way) => {
-  const format = path.extname(way);
+const parses = (obj, format) => {
   if (format === '.yaml' || format === '.yml') {
-    return yaml.load(readFile(way));
+    return yaml.load(obj);
   }
   if (format === '.json') {
-    return JSON.parse(readFile(way));
+    return JSON.parse(obj);
   }
   throw Error(`This if invalid is ${format}`);
 };
-
-export {
-  readFile, parses,
-};
+export default parses;
