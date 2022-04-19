@@ -2,8 +2,9 @@ import _ from 'lodash';
 
 const diff = (file1, file2) => {
   const iter = (node1, node2) => {
-    const keys = _.sortBy(_.union(_.keys(node1), _.keys(node2)));
-    const result = keys.map((key) => {
+    const unionKeys = _.union(_.keys(node1), _.keys(node2));
+    const sortKeys = _.sortBy(unionKeys);
+    const result = sortKeys.map((key) => {
       if (!_.has(node1, key)) {
         return {
           name: key,
