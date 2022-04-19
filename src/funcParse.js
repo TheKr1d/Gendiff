@@ -4,7 +4,7 @@ const parser = (obj, format) => {
   switch (format) {
     case '.yaml':
       return yaml.load(obj);
-    case 'yml':
+    case '.yml':
       return yaml.load(obj);
     case '.json':
       return JSON.parse(obj);
