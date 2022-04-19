@@ -15,6 +15,7 @@ const plain = (node, acc = []) => {
   switch (node.action) {
     case 'root':
       return node.children
+        .filter((child) => child.action !== 'save')
         .map((child) => plain(child, [...acc, child.name])).join('\n');
 
     case 'nested':
