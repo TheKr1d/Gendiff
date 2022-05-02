@@ -34,8 +34,12 @@ Run:
 ```
 gendiff [options] <path/to/file1> <path/to/file2>
 ```
-##Work example.
-##Running the compare 2 json files command.
+## Work example.
+
+## Running the compare 2 json files command.
+
 [![asciicast](https://asciinema.org/a/480825.svg)](https://asciinema.org/a/480825)
-##Perform a comparison of 2 json files with the format `stylish`.
+
+## Perform a comparison of 2 json files with the format `stylish`.
+
 [![asciicast](https://asciinema.org/a/iAYkrrH3zilcSUHeVxrduWbjN.svg)](https://asciinema.org/a/iAYkrrH3zilcSUHeVxrduWbjN)
