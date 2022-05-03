@@ -40,6 +40,6 @@ gendiff [options] <path/to/file1> <path/to/file2>
 
 [![asciicast](https://asciinema.org/a/480825.svg)](https://asciinema.org/a/480825)
 
-## Perform a comparison of 2 json files with the format `stylish`.
+## Perform a comparison of 2 json files with the format `plain`.
 
 [![asciicast](https://asciinema.org/a/iAYkrrH3zilcSUHeVxrduWbjN.svg)](https://asciinema.org/a/iAYkrrH3zilcSUHeVxrduWbjN)
